@@ -3,12 +3,13 @@
 	<h2>{{error}}</h2>
 {% endif %}
 
-<form method="POST">
-	<input type="text" name="text">
+<div>
+	<textarea name="text" id="text"></textarea> 
 	<input type="radio" name="lang" value="cs-ru" checked> CS -&gt; RU
 	<input type="radio" name="lang" value="ru-cs"> RU -&gt; CS
-	<input type="submit" value="Перевести">
-</form>
+	<input type="submit" id="translateBtn" value="Перевести">	
+	<textarea name="text" id="translationText"></textarea> 
+</div>
 
-<script data-main="scripts/views/app" src="scripts/require.js">
+<script data-main="scripts/views/app" src="scripts/foreign/require.js">
 </script>

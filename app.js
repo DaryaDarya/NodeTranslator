@@ -23,7 +23,7 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
 	if (!req.body.text || req.body.text == "") {
-		res.render('translator', {
+		res.json( {
 			title: "Введите слово для перевода!"
 		});
 	} else {
@@ -46,16 +46,16 @@ app.post('/', function(req, res){
 
 				if (error || json.code != 200) {
 					data = {
-						title: "Ошибка при переводе слова " + req.body.text,
+						title: "Ошибка при переводе слова",
 						error: json.message
 					}
 				} else {
 					data = {
-						title: 'Перевод слова ' + req.body.text + ": " + json.text
+						title: 'Перевод слова ' + req.body.text + ": " + json.text,
+						translate: json.text
 					}
 				}
-
-				res.render('index', data);
+				res.json(data);
 			}
 		);
 	}
