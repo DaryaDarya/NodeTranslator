@@ -1,13 +1,10 @@
-<h1>{{title}}</h1>
-{% if error %}
-	<h2>{{error}}</h2>
-{% endif %}
+<div class="title"> {{title}} </div>
+<link rel="stylesheet" type="text/css" href="styles/index.css">
 
-<div>
+
+<div class="mainContent">
 	<textarea name="text" id="text"></textarea> 
-	<input type="radio" name="lang" value="cs-ru" checked> CS -&gt; RU
-	<input type="radio" name="lang" value="ru-cs"> RU -&gt; CS
-	<input type="submit" id="translateBtn" value="Перевести">	
+	<input type="button" class="changeDirection" value="RU <-> CS" data-direction="ru-cs"/>
 	<textarea name="text" id="translationText"></textarea> 
 </div>
 

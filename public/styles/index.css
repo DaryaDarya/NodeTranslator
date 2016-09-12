@@ -1,0 +1,16 @@
+.title{
+	font-size: 30px;
+	padding: 10px 30px;
+}
+
+.mainContent{
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#text, #translationText{
+	width: 40%;
+	height: 100px;
+	resize: none;
+}

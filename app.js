@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 app.get('/', function(req, res){
 	res.render('index', {
-		title: 'Заполните форму для перевода.'
+		title: 'Заполните форму для перевода'
 	});
 });
 
