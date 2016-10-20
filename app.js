@@ -4,6 +4,7 @@ var request = require('request');
 var urlutils = require('url');
 var templating = require('consolidate');
 var path = require("path");
+var db = require("./repositories/db");
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}))
@@ -17,7 +18,7 @@ app.use(express.static('public'));
 
 app.get('/', function(req, res){
 	res.render('index', {
-		title: 'Заполните форму для перевода'
+		title: 'Input word for translate'
 	});
 });
 
@@ -46,12 +47,12 @@ app.post('/', function(req, res){
 
 				if (error || json.code != 200) {
 					data = {
-						title: "Ошибка при переводе слова",
-						error: json.message
+						title: "Error on word translate",
+						error: json && json.message || error
 					}
 				} else {
 					data = {
-						title: 'Перевод слова ' + req.body.text + ": " + json.text,
+						title: 'Translate word ' + req.body.text + ": " + json.text,
 						translate: json.text
 					}
 				}
@@ -61,6 +62,25 @@ app.post('/', function(req, res){
 	}
 });
 
+app.post("/saveWordsPair", function(req, res){
+	return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word})
+		.then(()=>{
+			res.send(200);
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+})
+
+app.get("/list", function(req, res){
+	return db.getAll()
+		.then((list)=>{
+			res.render( "list", {items: list});
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+})
 
 app.listen(8080);
 console.log('Express server listening on port 8080');

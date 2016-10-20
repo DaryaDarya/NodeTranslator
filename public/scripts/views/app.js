@@ -17,11 +17,31 @@ require(["jquery", "underscore"], function ($, _) {
 			}
     		$.post("/", { text: text, lang: $(".changeDirection").attr("data-direction") }, function(data){
     			if (data.error || !data.translate){
-    				return $(".title").val(data.title);
+    				return $(".title").text(data.title);
     			}
 				$("#translationText").val(data.translate)
     		})
 		};
+
+
+		function saveWordsPair (){
+			var currentDirection = $(this).attr("data-direction");
+			//todo: move logic to server
+    		if (currentDirection == "ru-cs"){
+    			$.post("/saveWordsPair", { ru_word: $("#translationText").val(), cs_word: $("#text").val()}, function(data){
+	    			if (data.error){
+	    				return $(".title").val(data.title);
+	    			}
+    			})	
+    		}else{
+  				$.post("/saveWordsPair", { cs_word:  $("#translationText").val(), ru_word: $("#text").val()}, function(data){		
+	    			if (data.error){
+	    				return $(".title").val(data.title);
+	    			}
+    			})
+    		}		
+		}
+
 		var debouncedSend = _.debounce(sendText, 400);
     	$("#text").on("input", debouncedSend);
     	$(".changeDirection").click(function(){
@@ -34,6 +54,9 @@ require(["jquery", "underscore"], function ($, _) {
     			$(this).val("RU <-> CS");
     		}
     		sendText();
+    	});
+    	$(".saveBtn").click(function(){
+    		saveWordsPair();	
     	})
     	
     });
