@@ -12,14 +12,17 @@ require(["jquery", "underscore"], function ($, _) {
 		function sendText(){
 			var text = $("#text").val();
 			if (!text){
-				$("#translationText").val("");
+				$("#translationText").val("Input word for translate");
 				return;	
 			}
+			$(".title").text("");
     		$.post("/", { text: text, lang: $(".changeDirection").attr("data-direction") }, function(data){
     			if (data.error || !data.translate){
-    				return $(".title").text(data.title);
+    				$(".title").text(data.error);
+    				return;
     			}
-				$("#translationText").val(data.translate)
+				$("#translationText").val(data.translate);
+				$(".title").text("Translating finished");
     		})
 		};
 
@@ -30,19 +33,20 @@ require(["jquery", "underscore"], function ($, _) {
     		if (currentDirection == "ru-cs"){
     			$.post("/saveWordsPair", { ru_word: $("#translationText").val(), cs_word: $("#text").val()}, function(data){
 	    			if (data.error){
-	    				return $(".title").val(data.title);
+	    				$(".title").text(data.error);
 	    			}
     			})	
     		}else{
   				$.post("/saveWordsPair", { cs_word:  $("#translationText").val(), ru_word: $("#text").val()}, function(data){		
 	    			if (data.error){
-	    				return $(".title").val(data.title);
+	    				$(".title").text(data.error);
 	    			}
     			})
     		}		
 		}
 
 		var debouncedSend = _.debounce(sendText, 400);
+
     	$("#text").on("input", debouncedSend);
     	$(".changeDirection").click(function(){
     		var currentDirection = $(this).attr("data-direction");

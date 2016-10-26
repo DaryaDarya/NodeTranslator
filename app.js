@@ -25,7 +25,7 @@ app.get('/', function(req, res){
 app.post('/', function(req, res){
 	if (!req.body.text || req.body.text == "") {
 		res.json( {
-			title: "Введите слово для перевода!"
+			title: "Input word for translate!"
 		});
 	} else {
 		var url = urlutils.format({
@@ -63,7 +63,14 @@ app.post('/', function(req, res){
 });
 
 app.post("/saveWordsPair", function(req, res){
-	return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word})
+	return db.getByWords(req.body.cs_word, req.body.ru_word)
+		.then(result => {
+			console.log(result, result.length);
+			if (result && result.length){
+				throw new Error("That words pair already exist");
+			}
+			return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word})	
+		})
 		.then(()=>{
 			res.send(200);
 		})
