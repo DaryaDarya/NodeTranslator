@@ -1,0 +1,35 @@
+{% if error %}
+	<div class="error"> {{error}}</div>
+{% else %}
+	<div class="title"> Saved word pairs </div>
+{% endif %}
+<link rel="stylesheet" type="text/css" href="styles/index.css">
+<div class="mainContent">		
+{% if items && items.length %}
+	<table class="table">
+		<tbody>
+			{% for item in items %}
+				<tr>
+					<td>
+						{{ item.ru_word }}	
+					</td>
+					<td>
+						{{ item.cs_word }}	
+					</td>
+					<td>
+						<div class="actions">
+							<input type="button" class="deleteBtn btn btn-danger" value="Delete" data-item="{{ item.id }}"/>
+							<input type="button" class="editBtn btn btn-default" value="Edit" data-item="{{ item.id }}"/>
+						</div>	
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	<div class="noItems">There are no saved words yet</div>
+{% endif %}	
+</div>
+
+<script data-main="scripts/views/list" src="scripts/foreign/require.js">
+</script>

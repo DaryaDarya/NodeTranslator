@@ -89,5 +89,15 @@ app.get("/list", function(req, res){
 		})
 })
 
+app.post("/delete", function(req, res){
+	return db.destroy(req.body.id)
+		.then(()=> {
+			res.send(200)
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+})
+
 app.listen(8080);
 console.log('Express server listening on port 8080');
