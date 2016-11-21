@@ -19,3 +19,7 @@ exports.getByWords = function getByWords(csWord, ruWord){
 exports.destroy = function destroy(id){
 	return pool.query(`delete from words where id='${id}'`);
 }
+
+exports.getUnstudied = function getUnstudied(count){
+	return pool.query(`select * from words order by rate limit ${count}`);
+}

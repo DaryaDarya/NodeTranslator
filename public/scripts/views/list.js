@@ -1,14 +1,6 @@
-require.config({
-    baseUrl: "/scripts",
-    paths: {
-        "jquery": "foreign/jquery",
-        "underscore": "foreign/underscore"
-    },
-    waitSeconds: 15
-  });
 
-require(["jquery", "underscore"], function ($, _) {
-    $(function () {
+define(["jquery", "underscore"], function ($, _) {
+    return (function () {
 		function deleteItem(){
 			var id = $(this).attr("data-item");
             var row = $(this).parents("tr");
@@ -30,7 +22,7 @@ require(["jquery", "underscore"], function ($, _) {
 
 		}
 
-    	$(".deleteBtn").click(deleteItem)
+    	$(".deleteBtn").click(deleteItem);
     	
-    });
+    })();
 });

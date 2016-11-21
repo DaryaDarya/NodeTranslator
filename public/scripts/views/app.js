@@ -1,13 +1,4 @@
-require.config({
-    baseUrl: "/scripts",
-    paths: {
-        "jquery": "foreign/jquery",
-        "underscore": "foreign/underscore"
-    },
-    waitSeconds: 15
-  });
-
-require(["jquery", "underscore"], function ($, _) {
+define(["jquery", "underscore"], function ($, _) {
     $(function () {
 		function sendText(){
 			var text = $("#text").val();

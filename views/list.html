@@ -3,7 +3,9 @@
 {% else %}
 	<div class="title"> Saved word pairs </div>
 {% endif %}
+
 <link rel="stylesheet" type="text/css" href="styles/index.css">
+
 <div class="mainContent">		
 {% if items && items.length %}
 	<table class="table">
@@ -31,5 +33,16 @@
 {% endif %}	
 </div>
 
-<script data-main="scripts/views/list" src="scripts/foreign/require.js">
+<script src="scripts/foreign/require.js"></script>
+
+<script>
+require(["scripts/init"], function(){
+	require(["jquery", "scripts/views/list.js"], function ($, List) {
+		//$(document).ready(function() {
+			//var myApplication = new List();
+
+			//myApplication.init();
+		//});
+	});
+})
 </script>

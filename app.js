@@ -99,5 +99,15 @@ app.post("/delete", function(req, res){
 		})
 })
 
+app.get("/training", function(req, res){
+	return db.getUnstudied(20)
+		.then((list)=>{
+			res.render( "training", {items: list});
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+})
+
 app.listen(8080);
 console.log('Express server listening on port 8080');

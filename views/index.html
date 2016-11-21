@@ -9,5 +9,11 @@
 	<input type="button" class="saveBtn" value="Save"/>
 </div>
 
-<script data-main="scripts/views/app" src="scripts/foreign/require.js">
+<script src="scripts/foreign/require.js"></script>
+
+<script>
+require(["scripts/init"], function(){
+	require(["jquery", "scripts/views/app.js"], function ($, App) {
+	});
+})
 </script>
