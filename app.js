@@ -107,6 +107,16 @@ app.get("/training", function(req, res){
 		.catch((err)=>{
 			res.json({error: err.message});
 		})
+});
+
+app.post("/updateRate", function(req, res){
+	return db.updateRate(req.body.resultList)
+		.then(()=> {
+			res.send(200)
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		});
 })
 
 app.listen(8080);

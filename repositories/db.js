@@ -23,3 +23,7 @@ exports.destroy = function destroy(id){
 exports.getUnstudied = function getUnstudied(count){
 	return pool.query(`select * from words order by rate limit ${count}`);
 }
+
+exports.updateRate = function updateRate(rateList){
+	return pool.query(`update words set rate=rate+1 where id in (${rateList.join()})`)
+}

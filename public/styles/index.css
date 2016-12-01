@@ -16,3 +16,21 @@
 	height: 100px;
 	resize: none;
 }
+
+.trainingWrap{
+	display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    height: 150px;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 50px 5px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.answerWord{
+	border: 1px solid #ddd;
+    border-radius: 2px;	
+}
