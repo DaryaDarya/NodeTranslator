@@ -1,0 +1,114 @@
+var translatorsConfig = require("../config").translators;
+var db;
+
+module.exports = function(dbPool){
+	db = dbPool;
+	return {
+		index: index,
+		translate: translateWord,
+		saveWordsPair: saveWordsPair,
+		getList: getList,
+		delete: deleteWordsPair,
+		getUnstudiedList: getUnstudiedList,
+		updateRate: updateRate
+	}
+
+}	
+
+function index(req, res){
+	res.render('index', {
+		title: 'Input word for translate'
+	});
+}
+
+function translateWord(req, res){
+	if (!req.body.text || req.body.text == "") {
+		res.json( {
+			title: "Input word for translate!"
+		});
+	} else {
+		var options = translatorsConfig.yandex;
+		options.query = (options.query || {});
+		options.lang = req.body.lang;
+		options.text = req.body.text;
+		var url = urlutils.format(options);
+
+		request.get({
+				url: url,
+				json: true
+			}, function (error, response, json) {
+				var data = {};
+
+				if (error || json.code != 200) {
+					data = {
+						title: "Error on word translate",
+						error: json && json.message || error
+					}
+				} else {
+					data = {
+						title: 'Translate word ' + req.body.text + ": " + json.text,
+						translate: json.text
+					}
+				}
+				res.json(data);
+			}
+		);
+	}
+}
+
+function saveWordsPair(req, res){
+	return db.getByWords(req.body.cs_word, req.body.ru_word)
+		.then(result => {
+			console.log(result, result.length);
+			if (result && result.length){
+				throw new Error("That words pair already exist");
+			}
+			return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word})	
+		})
+		.then(()=>{
+			res.send(200);
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+}
+
+function getList(req, res){
+	return db.getAll()
+		.then((list)=>{
+			res.render( "list", {items: list});
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+}
+
+function deleteWordsPair(req, res){
+	return db.destroy(req.body.id)
+		.then(()=> {
+			res.send(200)
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+}
+
+function getUnstudiedList(req, res){
+	return db.getUnstudied(20)
+		.then((list)=>{
+			res.render( "training", {items: list});
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		})
+}
+
+function updateRate(req, res){
+	return db.updateRate(req.body.resultList)
+		.then(()=> {
+			res.send(200)
+		})
+		.catch((err)=>{
+			res.json({error: err.message});
+		});
+}
