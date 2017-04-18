@@ -1,9 +1,15 @@
 var config = {
-	db:{
+	mysqldb:{
 		database: "translate",
 		host: "127.0.0.1",
 		user: "root",
-		password: ""
+		port: '3306',
+		password: "1234"
+	},
+	db:{
+		database: "translate",
+		host: "127.0.0.1",
+		port: '27017',
 	},
 
 	translators: {

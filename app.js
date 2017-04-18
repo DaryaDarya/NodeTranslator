@@ -1,12 +1,10 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var request = require('request');
-var urlutils = require('url');
 var templating = require('consolidate');
 var path = require("path");
 
-var db = require("./repositories/db");
-var wordsController = require("./controllers/wordsController")(db);
+//var db = require("./repositories/words");
+var wordsController = require("./controllers/wordsController");
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -19,11 +17,12 @@ app.use(express.static('public'));
 
 app.get('/', wordsController.index);
 app.post('/', wordsController.translateWord);
-app.post("/saveWordsPair", wordsController.saveWordsPair});
+app.post("/saveWordsPair", wordsController.saveWordsPair);
 app.get("/list", wordsController.getList);
 app.post("/delete", wordsController.delete);
 app.get("/training", wordsController.getUnstudiedList);
 app.post("/updateRate", wordsController.updateRate);
 
-app.listen(8080);
-console.log('Express server listening on port 8080');
+app.listen(8080, ()=>{
+	console.log('Express server listening on port 8080');
+});

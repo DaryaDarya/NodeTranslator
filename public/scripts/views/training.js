@@ -25,7 +25,7 @@ define(["jquery", "underscore", "module"], function ($, _, module) {
             var question = $questionWord.text();
             var answer = $answerWord.val();
             if (indexedItems[question].ru_word == answer){
-                resultList.push(indexedItems[question].id);
+                resultList.push(indexedItems[question]._id);
                 $resultWrap.text("Correct!");
             }else{
                 $resultWrap.text("Wrong! Correct answer: " + indexedItems[question].ru_word);

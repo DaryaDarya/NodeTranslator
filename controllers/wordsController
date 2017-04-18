@@ -1,19 +1,17 @@
-var translatorsConfig = require("../config").translators;
-var db;
+const translatorsConfig = require("../config").translators;
+const db = require("../repositories/words");
+const urlutils = require('url');
+const request = require('request');
 
-module.exports = function(dbPool){
-	db = dbPool;
-	return {
+module.exports =  {
 		index: index,
-		translate: translateWord,
+		translateWord: translateWord,
 		saveWordsPair: saveWordsPair,
 		getList: getList,
 		delete: deleteWordsPair,
 		getUnstudiedList: getUnstudiedList,
 		updateRate: updateRate
-	}
-
-}	
+	}	
 
 function index(req, res){
 	res.render('index', {
@@ -29,8 +27,8 @@ function translateWord(req, res){
 	} else {
 		var options = translatorsConfig.yandex;
 		options.query = (options.query || {});
-		options.lang = req.body.lang;
-		options.text = req.body.text;
+		options.query.lang = req.body.lang;
+		options.query.text = req.body.text;
 		var url = urlutils.format(options);
 
 		request.get({
@@ -63,7 +61,7 @@ function saveWordsPair(req, res){
 			if (result && result.length){
 				throw new Error("That words pair already exist");
 			}
-			return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word})	
+			return db.save({cs_word: req.body.cs_word, ru_word: req.body.ru_word, rate: 0})	
 		})
 		.then(()=>{
 			res.send(200);
@@ -79,6 +77,7 @@ function getList(req, res){
 			res.render( "list", {items: list});
 		})
 		.catch((err)=>{
+			console.log(err);
 			res.json({error: err.message});
 		})
 }
