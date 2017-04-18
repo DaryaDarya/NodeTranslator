@@ -1,24 +1,27 @@
-{% if error %}
-	<div class="error"> {{error}}</div>
-{% else %}
-	<div class="title"> Training </div>
-{% endif %}
 <link rel="stylesheet" type="text/css" href="styles/index.css">
-<div class="mainContent">		
-{% if !items || !items.length %}
-	<div class="noItems">There are no saved words yet</div>
-{% endif %}	
-</div>
+{% include  "_navbar.html" %}
+    <div class="container">
+    {% if error %}
+    	<h1 class="error"> {{error}}</h1>
+    {% else %}
+    	<h1 class="title"> Training </h1>
+    {% endif %}
 
-<div class="mainContent">
-    <div class="trainingWrap">
-        <span class="questionWord"></span>
-        <input class="answerWord" type="text" />
-        <input type="button" class="checkBtn btn btn-default" value="Check" />
-        <div class="resultWrap"></div>
-    </div>   
-</div>
+    <div class="row">		
+    {% if !items || !items.length %}
+    	<div class="noItems">There are no saved words yet</div>
+    {% endif %}	
+    </div>
 
+    <div class="row">
+        <div class="trainingWrap">
+            <span class="questionWord"></span>
+            <input class="answerWord" type="text" />
+            <input type="button" class="checkBtn btn btn-default" value="Check" />
+            <div class="resultWrap"></div>
+        </div>   
+    </div>
+</div>
 <script>
     var require = {
         config: {
